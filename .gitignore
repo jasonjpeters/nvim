@@ -1,0 +1,6 @@
+#OS
+.DS_Store
+Thumbs.db
+
+#LazyVim
+lazy-lock.json
