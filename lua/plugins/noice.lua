@@ -9,29 +9,6 @@ return {
 		require("telescope").load_extension("noice")
 
 		require("noice").setup({
-			views = {
-				cmdline_popup = {
-					position = 4,
-					size = {
-						width = "100%",
-						height = "1",
-					},
-					border = {
-						style = "none",
-						padding = { 2, 3 },
-					},
-				},
-				filter_options = {},
-				win_options = {
-					winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
-				},
-			},
-			routes = {
-				{
-					view = "notify",
-					filter = { event = "msg_showmode" },
-				},
-			},
 			lsp = {
 				override = {
 					["vim.lsp.util.convert_input_to_markdown_lines"] = true,
@@ -45,6 +22,43 @@ return {
 				long_message_to_split = true,
 				inc_rename = false,
 				lsp_doc_border = false,
+			},
+			routes = {
+				{
+					view = "notify",
+					filter = { event = "msg_showmode" },
+				},
+			},
+			cmdline = {
+				view = "cmdline_popup",
+				format = {
+					cmdline = {
+						pattern = "^:",
+						icon = "|>",
+						lang = "vim",
+						title = "",
+					},
+				},
+			},
+			views = {
+				cmdline_popup = {
+					position = {
+						row = "90%",
+						col = "50%",
+					},
+					size = {
+						height = "auto",
+						width = "80%",
+					},
+					border = {
+						style = "none",
+						padding = { 2, 3 },
+					},
+				},
+				filter_options = {},
+				win_options = {
+					winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
+				},
 			},
 		})
 	end,

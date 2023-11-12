@@ -11,7 +11,12 @@ return {
 		lint.linters_by_ft = {
 			javascript = { "eslint_d" },
 			javascriptreact = { "eslint_d" },
-			php = { "phpcs" },
+			jsonc = { "eslint_d" },
+			json = { "eslint_d" },
+			lua = { "luacheck" },
+			php = { "phpstan" },
+			sh = { "shellcheck" },
+			vue = { "eslint_d" },
 		}
 
 		local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })

@@ -1,8 +1,10 @@
 local nvim_modes = {
-	i = "i", -- insert
 	n = "n", -- normal
-	t = "t", -- terminal
+	i = "i", -- insert
 	v = "v", -- visual
+	x = "x", -- visual block
+	t = "t", -- terminal
+	c = "c", -- command
 }
 
 local default_opts = {

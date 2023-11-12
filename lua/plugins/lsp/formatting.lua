@@ -15,15 +15,19 @@ return {
 
 		conform.setup({
 			formatters_by_ft = {
-				css = { "prettier" },
-				html = { "prettier" },
-				javascript = { "prettier" },
-				javascriptreact = { "prettier" },
-				json = { "prettier" },
+				css = { "prettierd" },
+				docker = { "prettierd" },
+				html = { "prettierd" },
+				javascript = { "prettierd" },
+				javascriptreact = { "prettierd" },
+				jsonc = { "fixjson" },
+				json = { "fixjson" },
 				lua = { "stylua" },
-				markdown = { "prettier" },
-				php = { "php-cs-fixer" },
-				yaml = { "prettier" },
+				markdown = { "prettierd" },
+				php = { "pint" },
+				sh = { "shfmt" },
+				vue = { "prettierd" },
+				yaml = { "prettierd" },
 			},
 			format_on_save = {
 				lsp_fallback = format,
