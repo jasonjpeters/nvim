@@ -13,7 +13,6 @@ require("config.keymaps")
 
 require('lazy').setup({
 	{ import = "plugins" },
-	{ import = "plugins.colorschemes" },
 }, {
 	defaults = {
 		lazy = true,
