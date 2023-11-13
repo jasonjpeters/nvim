@@ -38,3 +38,4 @@ return {
         mk('n', '<leader>fc', '<cmd>Telescope commands<cr>', 'Find available command(s).')
     end,
 }
+

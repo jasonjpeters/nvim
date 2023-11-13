@@ -7,7 +7,7 @@ return {
 	event = "VeryLazy",
 	config = function()
 		require("telescope").load_extension("noice")
-
+		
 		require("noice").setup({
 			lsp = {
 				override = {
@@ -51,8 +51,8 @@ return {
 						width = "80%",
 					},
 					border = {
-						style = "none",
-						padding = { 2, 3 },
+						style = "single",
+						padding = { 1, 1 },
 					},
 				},
 				filter_options = {},
