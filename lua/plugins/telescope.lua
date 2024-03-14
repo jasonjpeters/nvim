@@ -1,63 +1,94 @@
 return {
-	"nvim-telescope/telescope.nvim",
-	dependencies = {
-		"nvim-lua/plenary.nvim",
-		"nvim-tree/nvim-web-devicons",
-		{
-			"nvim-telescope/telescope-fzf-native.nvim",
-			build = "make",
-		},
-		"nvim-telescope/telescope-file-browser.nvim",
-		"debugloop/telescope-undo.nvim",
-	},
-	lazy = false,
-	config = function()
-		local telescope = require("telescope")
-		local action = require("telescope.actions")
+    'nvim-telescope/telescope.nvim',
+    event = 'VimEnter',
+    branch = '0.1.x',
+    dependencies = {
+        'nvim-lua/plenary.nvim',
+        {
+            'nvim-telescope/telescope-fzf-native.nvim',
+            build = 'make',
+            cond = function()
+                return vim.fn.executable 'make' == 1
+            end,
+        },
+        { 'nvim-tree/nvim-web-devicons' },
+        { 'nvim-telescope/telescope-ui-select.nvim' },
+        { 'nvim-telescope/telescope-file-browser.nvim' },
+        { 'debugloop/telescope-undo.nvim' },
+    },
+    config = function()
+        local telescope = require 'telescope'
 
-		telescope.setup({
-			defaults = {
-				extension = {
-					undo = {},
-				},
-				sorting_strategy = "ascending",
-				layout_strategy = "bottom_pane",
-				layout_config = {
-					height = 100,
-					width = 100,
-					prompt_position = "bottom",
-				},
-				border = true,
-				borderchars = {
-					prompt = { "─", " ", " ", " ", "─", "─", " ", " " },
-					results = { " " },
-					preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
-				},
-			},
-			mapping = {
-				i = {},
-			},
-		})
+        telescope.setup {
+            defaults = {
+                extension = {
+                    undo = {},
+                },
+                sorting_strategy = 'ascending',
+                layout_strategy = 'bottom_pane',
+                layout_config = {
+                    width = 100,
+                    height = 100,
+                    prompt_position = 'bottom',
+                },
+                border = true,
+                borderchars = {
+                    prompt = { '─', ' ', ' ', ' ', '─', '─', ' ', ' ' },
+                    results = { ' ' },
+                    preview = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
+                },
+            },
+            mapping = {
+                i = {},
+            },
+            extensions = {
+                ['ui-select'] = {
+                    require('telescope.themes').get_dropdown(),
+                },
+            },
+        }
 
-		telescope.load_extension("fzf")
-		telescope.load_extension("file_browser")
-		telescope.load_extension("undo")
+        telescope.load_extension 'fzf'
+        telescope.load_extension 'file_browser'
+        telescope.load_extension 'undo'
 
-		local nnoremap = require("utils.keymapper").nnoremap
-		nnoremap("<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Find buffer." })
-		nnoremap("<leader>fc", "<cmd>Telescope commands<cr>", { desc = "Find available commands." })
-		nnoremap("<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Find files." })
-		nnoremap("<leader>fg", "<cmd>Telescope grep_string<cr>", { desc = "Find string in current working tree." })
-		nnoremap("<leader>fh", "<cmd>Telescope help_tags<cr>", { desc = "Find help tags." })
-		nnoremap("<leader>fk", "<cmd>Telescope keymaps<cr>", { desc = "Find keymap." })
-		nnoremap("<leader>fl", "<cmd>Telescope live_grep<cr>", { desc = "Find in current working directory." })
-		nnoremap("<leader>fn", "<cmd>Telescope notify<cr>", { desc = "Find notification." })
-		nnoremap("<leader>fo", "<cmd>Telescope oldfiles<cr>", { desc = "Find previously open file." })
+        local nnoremap = require('utils.keymapper').nnoremap
+        local builtin = require 'telescope.builtin'
 
-		-- ext: undo
-		nnoremap("<leader>fu", "<cmd>Telescope undo<cr>", { desc = "Find undo." })
+        nnoremap('<leader><leader>', builtin.buffers, { desc = 'Search existing buffers.' })
+        nnoremap('<leader>s.', builtin.oldfiles, { desc = 'Search resent files.' })
+        nnoremap('<leader>sc', builtin.commands, { desc = 'Search commands.' })
+        nnoremap('<leader>sd', builtin.diagnostics, { desc = 'Search diagnostics.' })
+        nnoremap('<leader>sf', builtin.find_files, { desc = 'Search files.' })
+        nnoremap('<leader>sg', builtin.live_grep, { desc = 'Search by group.' })
+        nnoremap('<leader>sh', builtin.help_tags, { desc = 'Search help.' })
+        nnoremap('<leader>sk', builtin.keymaps, { desc = 'Search keymaps.' })
+        nnoremap('<leader>sr', builtin.resume, { desc = 'Search resume.' })
+        nnoremap('<leader>ss', builtin.builtin, { desc = 'Search select telescope.' })
+        nnoremap('<leader>sw', builtin.grep_string, { desc = 'Search current word.' })
 
-		-- ext: file_browser
-		nnoremap("<leader>f\\", "<cmd>Telescope file_browser<cr>", { desc = "File browser." })
-	end,
+        -- ext: undo
+        nnoremap('<leader>su', '<cmd>Telescope undo<cr>', { desc = 'Find undo.' })
+
+        -- ext: file_browser
+        nnoremap('<leader>f\\', '<cmd>Telescope file_browser<cr>', { desc = 'File browser.' })
+
+        nnoremap('<leader>/', function()
+            builtin.current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
+                winblend = 10,
+                previewer = false,
+            })
+        end, { desc = 'Fuzzily search in current buffer.' })
+
+        nnoremap('<leader>s/', function()
+            builtin.live_grep {
+                grep_open_files = true,
+                prompt_title = 'Live grep in open files.',
+            }
+        end, { desc = 'Search in open files.' })
+
+        nnoremap('<leader>sn', function()
+            builtin.find_files { cwd = vim.fn.stdpath 'config' }
+        end, { desc = 'Search neovim files.' })
+    end,
 }
